@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Test Runner</title>
+    <style>
+        .test-result { margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .passed { background-color: #e6ffe6; }
+        .failed { background-color: #ffe6e6; }
+        .error { background-color: #fff0e6; }
+        .test-name { font-weight: bold; }
+        .test-outcome { margin-left: 10px; }
+        .test-duration { font-size: 0.9em; color: #666; }
+        .test-message { margin-top: 10px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Python Test Runner</h1>
+    <form method="POST">
+        <select name="test_file">
+            {% for file in test_files %}
+            <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Run Tests">
+    </form>
+    {% if test_results %}
+    <h2>Test Results:</h2>
+    {% for result in test_results %}
+    <div class="test-result {{ result.outcome }}">
+        <span class="test-name">{{ result.name }}</span>
+        <span class="test-outcome">{{ result.outcome }}</span>
+        <span class="test-duration">({{ "%.2f"|format(result.duration) }}s)</span>
+        {% if result.message %}
+        <div class="test-message">{{ result.message }}</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% if output %}
+    <h2>Full Test Output:</h2>
+    <pre>{{ output }}</pre>
+    {% endif %}
+</body>
+</html>
